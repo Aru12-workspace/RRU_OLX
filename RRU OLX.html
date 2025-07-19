@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RRU Marketplace</title>
+    <style>
+        :root {
+            --primary: #0066cc;
+            --secondary: #004d99;
+            --danger: #cc0000;
+            --light: #f5f9ff;
+            --dark: #003366;
+            --gray: #666699;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f0f7ff;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* Main content */
+        .welcome-message {
+            text-align: center;
+            margin: 40px 0;
+            color: var(--dark);
+        }
+        
+        .welcome-message h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .welcome-message p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .browse-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .browse-btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,102,204,0.3);
+        }
+        
+        /* Search and Filter */
+        .search-filter {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #b3d1ff;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .filter-select {
+            min-width: 150px;
+        }
+        
+        .filter-select select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #b3d1ff;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: white;
+        }
+        
+        /* Auth Forms */
+        .auth-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border: 1px solid var(--primary);
+        }
+        
+        .auth-container h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--primary);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #b3d1ff;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: #f5f9ff;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary);
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+        }
+        
+        .btn-danger:hover {
+            background-color: #b30000;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .mt-3 {
+            margin-top: 15px;
+        }
+        
+        /* Items Page */
+        .items-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .item-detail {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .item-detail-img {
+            max-width: 100%;
+            height: auto;
+            max-height: 400px;
+            display: block;
+            margin: 0 auto 20px;
+            border-radius: 4px;
+        }
+        
+        .item-detail-title {
+            font-size: 28px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .item-detail-price {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .item-detail-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            color: var(--gray);
+            flex-wrap: wrap;
+        }
+        
+        .item-detail-description {
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+        
+        .item-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        /* Image Upload */
+        .image-upload-container {
+            margin-bottom: 20px;
+        }
+        
+        .image-preview {
+            max-width: 200px;
+            max-height: 200px;
+            margin-top: 10px;
+            display: none;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .welcome-message h1 {
+                font-size: 2rem;
+            }
+            
+            .item-actions {
+                flex-direction: column;
+            }
+            
+            .search-filter {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">RRU Marketplace</a>
+                <div class="nav-links" id="navLinks">
+                    <a href="#" id="homeLink">Home</a>
+                    <a href="#" id="browseItemsLink">Browse Items</a>
+                    <a href="#" id="createLink">Sell Item</a>
+                    <a href="#" id="loginLink">Login</a>
+                    <a href="#" id="registerLink">Register</a>
+                    <a href="#" id="logoutLink" style="display: none;">Logout</a>
+                    <span id="usernameDisplay" style="font-weight: bold; display: none;"></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Alert Container -->
+        <div id="alertContainer"></div>
+        
+        <!-- Home Content -->
+        <div id="homeContent">
+            <div class="welcome-message">
+                <h1>Welcome to RRU Marketplace</h1>
+                <p>Your platform to buy and sell items within the RRU community.</p>
+                <button id="browseBtn" class="browse-btn">Browse All Items</button>
+            </div>
+        </div>
+        
+        <!-- Items List -->
+        <div id="itemsListContent" style="display: none;">
+            <div class="items-header">
+                <h2>All Items</h2>
+                <div class="search-filter">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Search items...">
+                    </div>
+                    <div class="filter-select">
+                        <select id="categoryFilter">
+                            <option value="">All Categories</option>
+                            <option value="Textbooks">Textbooks</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Furniture">Furniture</option>
+                            <option value="Stationery">Stationery</option>
+                            <option value="Clothing">Clothing</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div id="itemsListContainer"></div>
+        </div>
+        
+        <!-- Item Detail -->
+        <div id="itemDetailContent" style="display: none;">
+            <button id="backToList" class="btn" style="margin: 20px 0;">← Back to Items</button>
+            <div id="itemDetailContainer"></div>
+        </div>
+        
+        <!-- Login Form -->
+        <div id="loginForm" class="auth-container" style="display: none;">
+            <h2>Login</h2>
+            <form id="loginFormElement">
+                <div class="form-group">
+                    <label for="loginUsername">Username</label>
+                    <input type="text" id="loginUsername" placeholder="Enter your username" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn-block">Login</button>
+            </form>
+            <p class="text-center mt-3">Don't have an account? <a href="#" id="showRegister">Register</a></p>
+        </div>
+        
+        <!-- Register Form -->
+        <div id="registerForm" class="auth-container" style="display: none;">
+            <h2>Register</h2>
+            <form id="registerFormElement">
+                <div class="form-group">
+                    <label for="registerName">Name</label>
+                    <input type="text" id="registerName" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerUsername">Username</label>
+                    <input type="text" id="registerUsername" placeholder="Choose a username" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" placeholder="Create a password" required>
+                </div>
+                <button type="submit" class="btn btn-block">Register</button>
+            </form>
+            <p class="text-center mt-3">Already have an account? <a href="#" id="showLogin">Login here</a></p>
+        </div>
+        
+        <!-- Create Product Form -->
+        <div id="createProductForm" class="auth-container" style="display: none;">
+            <h2>Sell an Item</h2>
+            <form id="productForm">
+                <div class="form-group">
+                    <label for="productTitle">Item Title</label>
+                    <input type="text" id="productTitle" placeholder="e.g. Calculus Textbook" required>
+                </div>
+                <div class="form-group">
+                    <label for="productDescription">Description</label>
+                    <textarea id="productDescription" rows="4" placeholder="Describe your item..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="productPrice">Price (₹)</label>
+                    <input type="number" id="productPrice" placeholder="Enter price" required>
+                </div>
+                <div class="form-group">
+                    <label for="productCategory">Category</label>
+                    <select id="productCategory">
+                        <option value="Textbooks">Textbooks</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Furniture">Furniture</option>
+                        <option value="Stationery">Stationery</option>
+                        <option value="Clothing">Clothing</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="productLocation">Location</label>
+                    <input type="text" id="productLocation" placeholder="Where is the item located?" required>
+                </div>
+                <div class="form-group image-upload-container">
+                    <label for="productImageUpload">Item Image</label>
+                    <input type="file" id="productImageUpload" accept="image/*">
+                    <img id="imagePreview" class="image-preview" alt="Image preview">
+                </div>
+                <button type="submit" class="btn btn-block">Post Listing</button>
+            </form>
+        </div>
+        
+        <!-- Edit Product Form -->
+        <div id="editProductForm" class="auth-container" style="display: none;">
+            <h2>Edit Item</h2>
+            <form id="editForm">
+                <input type="hidden" id="editProductId">
+                <div class="form-group">
+                    <label for="editProductTitle">Item Title</label>
+                    <input type="text" id="editProductTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="editProductDescription">Description</label>
+                    <textarea id="editProductDescription" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editProductPrice">Price (₹)</label>
+                    <input type="number" id="editProductPrice" required>
+                </div>
+                <div class="form-group">
+                    <label for="editProductCategory">Category</label>
+                    <select id="editProductCategory">
+                        <option value="Textbooks">Textbooks</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Furniture">Furniture</option>
+                        <option value="Stationery">Stationery</option>
+                        <option value="Clothing">Clothing</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editProductLocation">Location</label>
+                    <input type="text" id="editProductLocation" required>
+                </div>
+                <div class="form-group image-upload-container">
+                    <label for="editProductImageUpload">Update Image (optional)</label>
+                    <input type="file" id="editProductImageUpload" accept="image/*">
+                    <img id="editImagePreview" class="image-preview" alt="Image preview">
+                    <input type="hidden" id="currentImage">
+                </div>
+                <div class="item-actions">
+                    <button type="submit" class="btn">Update Item</button>
+                    <button type="button" id="cancelEdit" class="btn btn-danger">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Database simulation using localStorage
+        const db = {
+            users: JSON.parse(localStorage.getItem('marketplace_users')) || [],
+            products: JSON.parse(localStorage.getItem('marketplace_products')) || [],
+            
+            saveUsers() {
+                localStorage.setItem('marketplace_users', JSON.stringify(this.users));
+            },
+            
+            saveProducts() {
+                localStorage.setItem('marketplace_products', JSON.stringify(this.products));
+            },
+            
+            addUser(user) {
+                this.users.push(user);
+                this.saveUsers();
+            },
+            
+            findUserByUsername(username) {
+                return this.users.find(u => u.username === username);
+            },
+            
+            addProduct(product) {
+                this.products.push(product);
+                this.saveProducts();
+            },
+            
+            updateProduct(id, updatedProduct) {
+                const index = this.products.findIndex(p => p.id === id);
+                if (index !== -1) {
+                    this.products[index] = updatedProduct;
+                    this.saveProducts();
+                    return true;
+                }
+                return false;
+            },
+            
+            getProducts() {
+                return this.products.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            },
+            
+            getProductById(id) {
+                return this.products.find(p => p.id === id);
+            },
+            
+            getUserProducts(username) {
+                return this.products.filter(p => p.seller === username);
+            },
+            
+            deleteProduct(id) {
+                this.products = this.products.filter(p => p.id !== id);
+                this.saveProducts();
+            },
+            
+            searchProducts(query, category) {
+                let results = this.products;
+                
+                if (query) {
+                    const q = query.toLowerCase();
+                    results = results.filter(p => 
+                        p.title.toLowerCase().includes(q) || 
+                        p.description.toLowerCase().includes(q)
+                    );
+                }
+                
+                if (category) {
+                    results = results.filter(p => p.category === category);
+                }
+                
+                return results.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            }
+        };
+
+        // Current user
+        let currentUser = JSON.parse(localStorage.getItem('marketplace_currentUser'));
+
+        // DOM Elements
+        const homeContent = document.getElementById('homeContent');
+        const itemsListContent = document.getElementById('itemsListContent');
+        const itemDetailContent = document.getElementById('itemDetailContent');
+        const itemsListContainer = document.getElementById('itemsListContainer');
+        const itemDetailContainer = document.getElementById('itemDetailContainer');
+        const backToList = document.getElementById('backToList');
+        const browseBtn = document.getElementById('browseBtn');
+        const browseItemsLink = document.getElementById('browseItemsLink');
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
+        
+        // Image upload elements
+        const productImageUpload = document.getElementById('productImageUpload');
+        const imagePreview = document.getElementById('imagePreview');
+        const editProductImageUpload = document.getElementById('editProductImageUpload');
+        const editImagePreview = document.getElementById('editImagePreview');
+
+        // Show alert message
+        function showAlert(message, type = 'success') {
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            alert.style.backgroundColor = type === 'success' ? '#e6f7ff' : '#ffebee';
+            alert.style.color = type === 'success' ? '#0066cc' : '#cc0000';
+            alert.style.padding = '15px';
+            alert.style.margin = '15px 0';
+            alert.style.borderRadius = '4px';
+            alert.style.borderLeft = `4px solid ${type === 'success' ? '#0066cc' : '#cc0000'}`;
+            document.getElementById('alertContainer').appendChild(alert);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 3000);
+        }
+
+        // Render items list with search/filter
+        function renderItemsList() {
+            const query = searchInput.value.toLowerCase();
+            const category = categoryFilter.value;
+            const products = db.searchProducts(query, category);
+            
+            itemsListContainer.innerHTML = '';
+            
+            if (products.length === 0) {
+                itemsListContainer.innerHTML = `
+                    <div class="item-detail" style="text-align: center;">
+                        <p>No items found.</p>
+                        ${!query && !category ? '<p>Be the first to list an item!</p>' : ''}
+                    </div>
+                `;
+                return;
+            }
+            
+            products.forEach(product => {
+                const itemCard = document.createElement('div');
+                itemCard.className = 'item-detail';
+                itemCard.style.cursor = 'pointer';
+                
+                itemCard.innerHTML = `
+                    ${product.image ? `<img src="${product.image}" class="item-detail-img" alt="${product.title}" style="max-height: 200px;">` : ''}
+                    <h3 class="item-detail-title">${product.title}</h3>
+                    <p class="item-detail-price">₹${product.price}</p>
+                    <div class="item-detail-meta">
+                        <span>${product.category}</span>
+                        <span>${product.location}</span>
+                    </div>
+                    <p>Posted by: ${product.seller}</p>
+                `;
+                
+                itemCard.addEventListener('click', () => showItemDetail(product.id));
+                itemsListContainer.appendChild(itemCard);
+            });
+        }
+
+        // Show item detail
+        function showItemDetail(id) {
+            const product = db.getProductById(id);
+            if (!product) {
+                showAlert('Item not found', 'danger');
+                return;
+            }
+            
+            itemDetailContainer.innerHTML = `
+                ${product.image ? `<img src="${product.image}" class="item-detail-img" alt="${product.title}">` : ''}
+                <h2 class="item-detail-title">${product.title}</h2>
+                <p class="item-detail-price">₹${product.price}</p>
+                <div class="item-detail-meta">
+                    <span>Category: ${product.category}</span>
+                    <span>Location: ${product.location}</span>
+                </div>
+                <p>Posted by: ${product.seller}</p>
+                <div class="item-detail-description">
+                    <h4>Description</h4>
+                    <p>${product.description}</p>
+                </div>
+                ${currentUser && currentUser.username === product.seller ? `
+                    <div class="item-actions">
+                        <button onclick="editItem('${product.id}')" class="btn">Edit Item</button>
+                        <button onclick="deleteItem('${product.id}')" class="btn btn-danger">Delete Item</button>
+                    </div>
+                ` : ''}
+            `;
+            
+            itemsListContent.style.display = 'none';
+            itemDetailContent.style.display = 'block';
+        }
+
+        // Edit item
+        window.editItem = function(id) {
+            const product = db.getProductById(id);
+            if (!product) return;
+            
+            document.getElementById('editProductId').value = product.id;
+            document.getElementById('editProductTitle').value = product.title;
+            document.getElementById('editProductDescription').value = product.description;
+            document.getElementById('editProductPrice').value = product.price;
+            document.getElementById('editProductCategory').value = product.category;
+            document.getElementById('editProductLocation').value = product.location;
+            document.getElementById('currentImage').value = product.image || '';
+            
+            if (product.image) {
+                editImagePreview.src = product.image;
+                editImagePreview.style.display = 'block';
+            } else {
+                editImagePreview.style.display = 'none';
+            }
+            
+            itemDetailContent.style.display = 'none';
+            document.getElementById('editProductForm').style.display = 'block';
+        }
+
+        // Delete item
+        window.deleteItem = function(id) {
+            if (confirm('Are you sure you want to delete this item?')) {
+                db.deleteProduct(id);
+                showAlert('Item deleted successfully');
+                showView('items');
+                renderItemsList();
+            }
+        }
+
+        // Update UI based on auth state
+        function updateAuthUI() {
+            if (currentUser) {
+                document.getElementById('loginLink').style.display = 'none';
+                document.getElementById('registerLink').style.display = 'none';
+                document.getElementById('logoutLink').style.display = 'block';
+                document.getElementById('createLink').style.display = 'block';
+                document.getElementById('usernameDisplay').style.display = 'block';
+                document.getElementById('usernameDisplay').textContent = currentUser.name || currentUser.username;
+                document.getElementById('usernameDisplay').style.color = 'var(--primary)';
+            } else {
+                document.getElementById('loginLink').style.display = 'block';
+                document.getElementById('registerLink').style.display = 'block';
+                document.getElementById('logoutLink').style.display = 'none';
+                document.getElementById('createLink').style.display = 'none';
+                document.getElementById('usernameDisplay').style.display = 'none';
+            }
+        }
+
+        // Show view
+        function showView(view) {
+            homeContent.style.display = view === 'home' ? 'block' : 'none';
+            itemsListContent.style.display = view === 'items' ? 'block' : 'none';
+            itemDetailContent.style.display = view === 'itemDetail' ? 'block' : 'none';
+            document.getElementById('loginForm').style.display = view === 'login' ? 'block' : 'none';
+            document.getElementById('registerForm').style.display = view === 'register' ? 'block' : 'none';
+            document.getElementById('createProductForm').style.display = view === 'create' ? 'block' : 'none';
+            document.getElementById('editProductForm').style.display = 'none';
+            
+            if (view === 'items') {
+                renderItemsList();
+            }
+        }
+
+        // Handle image upload preview
+        productImageUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    imagePreview.src = event.target.result;
+                    imagePreview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        editProductImageUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    editImagePreview.src = event.target.result;
+                    editImagePreview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Event Listeners
+        browseBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            showView('items');
+        });
+
+        browseItemsLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showView('items');
+        });
+
+        backToList.addEventListener('click', (e) => {
+            e.preventDefault();
+            showView('items');
+        });
+
+        document.getElementById('homeLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            showView('home');
+        });
+
+        document.getElementById('createLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (currentUser) {
+                document.getElementById('productForm').reset();
+                imagePreview.style.display = 'none';
+                showView('create');
+            } else {
+                showAlert('Please login to sell items', 'danger');
+                showView('login');
+            }
+        });
+
+        document.getElementById('loginLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            showView('login');
+        });
+
+        document.getElementById('registerLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            showView('register');
+        });
+
+        document.getElementById('logoutLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            currentUser = null;
+            localStorage.removeItem('marketplace_currentUser');
+            updateAuthUI();
+            showView('home');
+            showAlert('Logged out successfully');
+        });
+
+        document.getElementById('showLogin').addEventListener('click', (e) => {
+            e.preventDefault();
+            showView('login');
+        });
+
+        document.getElementById('showRegister').addEventListener('click', (e) => {
+            e.preventDefault();
+            showView('register');
+        });
+
+        document.getElementById('cancelEdit').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('editProductForm').style.display = 'none';
+            itemDetailContent.style.display = 'block';
+        });
+
+        // Search and filter events
+        searchInput.addEventListener('input', renderItemsList);
+        categoryFilter.addEventListener('change', renderItemsList);
+
+        // Login Form
+        document.getElementById('loginFormElement').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            const user = db.findUserByUsername(username);
+            
+            if (user && user.password === password) {
+                currentUser = user;
+                localStorage.setItem('marketplace_currentUser', JSON.stringify(currentUser));
+                updateAuthUI();
+                showView('home');
+                showAlert(`Welcome back, ${user.name || user.username}!`);
+            } else {
+                showAlert('Invalid username or password', 'danger');
+            }
+        });
+
+        // Register Form
+        document.getElementById('registerFormElement').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('registerName').value;
+            const username = document.getElementById('registerUsername').value;
+            const password = document.getElementById('registerPassword').value;
+            
+            if (db.findUserByUsername(username)) {
+                showAlert('This username is already taken', 'danger');
+                return;
+            }
+            
+            const newUser = { name, username, password };
+            db.addUser(newUser);
+            
+            showAlert('Registration successful! Please login.');
+            showView('login');
+        });
+
+        // Product Form
+        document.getElementById('productForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (!currentUser) {
+                showAlert('Please login to sell items', 'danger');
+                return;
+            }
+            
+            let imageUrl = '';
+            if (productImageUpload.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    imageUrl = event.target.result;
+                    // Save the product with the image
+                    const newProduct = {
+                        id: Date.now().toString(),
+                        title: document.getElementById('productTitle').value,
+                        description: document.getElementById('productDescription').value,
+                        price: document.getElementById('productPrice').value,
+                        category: document.getElementById('productCategory').value,
+                        location: document.getElementById('productLocation').value,
+                        image: imageUrl,
+                        seller: currentUser.username,
+                        createdAt: new Date().toISOString()
+                    };
+                    
+                    db.addProduct(newProduct);
+                    document.getElementById('productForm').reset();
+                    imagePreview.style.display = 'none';
+                    showView('items');
+                    showAlert('Item listed successfully!');
+                };
+                reader.readAsDataURL(productImageUpload.files[0]);
+                return; // Exit early since we're handling in callback
+            } else {
+                // No image case
+                const newProduct = {
+                    id: Date.now().toString(),
+                    title: document.getElementById('productTitle').value,
+                    description: document.getElementById('productDescription').value,
+                    price: document.getElementById('productPrice').value,
+                    category: document.getElementById('productCategory').value,
+                    location: document.getElementById('productLocation').value,
+                    image: '',
+                    seller: currentUser.username,
+                    createdAt: new Date().toISOString()
+                };
+                
+                db.addProduct(newProduct);
+                document.getElementById('productForm').reset();
+                showView('items');
+                showAlert('Item listed successfully!');
+            }
+        });
+
+        // Edit Form
+        document.getElementById('editForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const id = document.getElementById('editProductId').value;
+            const currentProduct = db.getProductById(id);
+            
+            if (editProductImageUpload.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const imageUrl = event.target.result;
+                    const updatedProduct = {
+                        ...currentProduct,
+                        title: document.getElementById('editProductTitle').value,
+                        description: document.getElementById('editProductDescription').value,
+                        price: document.getElementById('editProductPrice').value,
+                        category: document.getElementById('editProductCategory').value,
+                        location: document.getElementById('editProductLocation').value,
+                        image: imageUrl
+                    };
+                    
+                    if (db.updateProduct(id, updatedProduct)) {
+                        showAlert('Item updated successfully');
+                        showItemDetail(id);
+                        document.getElementById('editProductForm').style.display = 'none';
+                        itemDetailContent.style.display = 'block';
+                    } else {
+                        showAlert('Failed to update item', 'danger');
+                    }
+                };
+                reader.readAsDataURL(editProductImageUpload.files[0]);
+            } else {
+                // No new image selected, keep existing one
+                const updatedProduct = {
+                    ...currentProduct,
+                    title: document.getElementById('editProductTitle').value,
+                    description: document.getElementById('editProductDescription').value,
+                    price: document.getElementById('editProductPrice').value,
+                    category: document.getElementById('editProductCategory').value,
+                    location: document.getElementById('editProductLocation').value,
+                    image: document.getElementById('currentImage').value || ''
+                };
+                
+                if (db.updateProduct(id, updatedProduct)) {
+                    showAlert('Item updated successfully');
+                    showItemDetail(id);
+                    document.getElementById('editProductForm').style.display = 'none';
+                    itemDetailContent.style.display = 'block';
+                } else {
+                    showAlert('Failed to update item', 'danger');
+                }
+            }
+        });
+
+        // Initialize
+        updateAuthUI();
+        showView('home');
+    </script>
+</body>
+</html>
